@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💫 برنامج نط الحبل – سنة كاملة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose: #FF6B9D;
+  --coral: #FF8C69;
+  --cream: #FFF5F0;
+  --sand: #F5E6D3;
+  --text: #2A1208;
+  --muted: #9B7A6E;
+  --green: #6BCFB0;
+  --yellow: #FFD166;
+  --purple: #A78BFA;
+  --white: #FFFAF8;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;width:700px;height:700px;background:radial-gradient(circle,rgba(255,107,157,0.1) 0%,transparent 70%);top:-250px;left:-250px;pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(255,140,105,0.08) 0%,transparent 70%);bottom:-150px;right:-150px;pointer-events:none;z-index:0;}
+
+/* DAILY GREETING OVERLAY */
+.greeting-overlay{position:fixed;inset:0;background:rgba(42,18,8,0.7);z-index:1100;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);}
+.greeting-overlay.hidden{display:none;}
+.greeting-box{background:white;border-radius:32px;padding:36px 32px;max-width:400px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.25);animation:popIn 0.45s cubic-bezier(.34,1.56,.64,1);}
+.greeting-box .gr-icon{font-size:58px;display:block;margin-bottom:10px;animation:swing 2s ease-in-out infinite;transform-origin:center top;}
+.greeting-box .gr-name{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,var(--rose),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.greeting-box .gr-time{font-size:0.82rem;color:var(--muted);margin-bottom:16px;font-weight:600;}
+.greeting-box .gr-msg{background:linear-gradient(135deg,rgba(255,107,157,0.07),rgba(255,140,105,0.07));border-radius:18px;padding:18px;margin-bottom:20px;font-size:0.95rem;line-height:1.7;color:var(--text);font-weight:500;}
+.greeting-box .gr-stats{display:flex;gap:10px;margin-bottom:20px;}
+.gr-stat{flex:1;background:var(--cream);border-radius:14px;padding:10px 6px;text-align:center;}
+.gr-stat-num{font-size:1.3rem;font-weight:900;color:var(--rose);}
+.gr-stat-lbl{font-size:0.68rem;color:var(--muted);margin-top:2px;font-weight:600;}
+.gr-btn{background:linear-gradient(135deg,var(--rose),var(--coral));color:white;border:none;border-radius:16px;padding:14px 28px;font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;width:100%;transition:transform 0.2s,box-shadow 0.2s;}
+.gr-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,157,0.4);}
+
+/* ONBOARDING OVERLAY */
+.onboard-overlay{position:fixed;inset:0;background:rgba(42,18,8,0.65);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+.onboard-overlay.hidden{display:none;}
+.onboard-box{background:white;border-radius:32px;padding:40px 36px;max-width:440px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.2);animation:popIn 0.4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(0.8);}to{opacity:1;transform:scale(1);}}
+.onboard-box .ob-icon{font-size:56px;display:block;margin-bottom:12px;}
+.onboard-box h2{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--rose),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.onboard-box p{color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:24px;}
+.weight-input-wrap{background:var(--cream);border-radius:18px;padding:20px;margin-bottom:20px;}
+.weight-input-wrap label{font-size:0.8rem;font-weight:700;color:var(--muted);display:block;margin-bottom:8px;}
+.weight-input-wrap input{width:100%;background:white;border:2px solid rgba(255,107,157,0.3);border-radius:14px;padding:14px 18px;font-family:'Tajawal',sans-serif;font-size:1.4rem;font-weight:800;color:var(--text);text-align:center;outline:none;transition:border-color 0.2s;}
+.weight-input-wrap input:focus{border-color:var(--rose);}
+.ob-btn{background:linear-gradient(135deg,var(--rose),var(--coral));color:white;border:none;border-radius:16px;padding:16px 32px;font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;width:100%;transition:transform 0.2s,box-shadow 0.2s;}
+.ob-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,157,0.4);}
+
+/* MAIN LAYOUT */
+.container{max-width:860px;margin:0 auto;padding:28px 18px 80px;position:relative;z-index:1;}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:32px;animation:fadeDown 0.6s ease;}
+.rope-emoji{font-size:48px;display:block;animation:swing 2.5s ease-in-out infinite;transform-origin:center top;}
+@keyframes swing{0%,100%{transform:rotate(-7deg);}50%{transform:rotate(7deg);}}
+.header h1{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--rose),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:10px;}
+.header .sub{color:var(--muted);font-size:0.9rem;margin-top:6px;}
+
+/* NAV TABS */
+.nav-tabs{display:flex;gap:8px;margin-bottom:28px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;animation:fadeUp 0.6s ease 0.15s both;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab-btn{background:white;border:2px solid transparent;border-radius:30px;padding:9px 18px;font-family:'Tajawal',sans-serif;font-size:0.85rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.tab-btn:hover{border-color:rgba(255,107,157,0.3);color:var(--rose);}
+.tab-btn.active{background:linear-gradient(135deg,var(--rose),var(--coral));color:white;border-color:transparent;box-shadow:0 4px 16px rgba(255,107,157,0.35);}
+
+/* YEARLY OVERVIEW */
+.year-overview{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px;animation:fadeUp 0.6s ease 0.2s both;}
+.overview-card{background:white;border-radius:22px;padding:18px;box-shadow:var(--card-shadow);border:1.5px solid rgba(255,107,157,0.08);text-align:center;transition:transform 0.2s;}
+.overview-card:hover{transform:translateY(-3px);}
+.ov-num{font-size:2rem;font-weight:900;color:var(--rose);line-height:1;}
+.ov-label{font-size:0.75rem;color:var(--muted);font-weight:600;margin-top:4px;}
+
+/* WEIGHT BANNER */
+.weight-banner{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:26px;padding:22px 26px;color:white;margin-bottom:28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;animation:fadeUp 0.6s ease 0.25s both;}
+.wb-stat{text-align:center;flex:1;min-width:80px;}
+.wb-num{font-size:1.9rem;font-weight:900;line-height:1;}
+.wb-label{font-size:0.72rem;opacity:0.85;margin-top:3px;font-weight:600;}
+.wb-divider{width:1px;height:50px;background:rgba(255,255,255,0.25);}
+.wb-change.positive{color:#6BCFB0;}
+.wb-change.negative{color:#FFD166;}
+
+/* MONTH SECTION */
+.month-section{margin-bottom:36px;animation:fadeUp 0.5s ease both;}
+.month-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;cursor:pointer;user-select:none;}
+.month-title{display:flex;align-items:center;gap:12px;}
+.month-badge{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,var(--m-color1),var(--m-color2));color:white;font-weight:900;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.month-name{font-size:1.1rem;font-weight:800;color:var(--text);}
+.month-sub{font-size:0.77rem;color:var(--muted);margin-top:2px;}
+.month-progress-bar{flex:1;max-width:160px;height:8px;background:rgba(0,0,0,0.07);border-radius:10px;overflow:hidden;}
+.month-progress-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--m-color1),var(--m-color2));transition:width 0.8s ease;}
+.month-pct{font-size:0.78rem;font-weight:700;color:var(--muted);}
+.collapse-icon{font-size:1rem;color:var(--muted);transition:transform 0.3s;}
+.month-section.collapsed .collapse-icon{transform:rotate(180deg);}
+.month-body{overflow:hidden;transition:max-height 0.4s ease;}
+.month-section.collapsed .month-body{max-height:0!important;}
+
+/* WEEKS GRID */
+.weeks-grid{display:flex;flex-direction:column;gap:10px;}
+.week-row{background:white;border-radius:18px;padding:14px 18px;box-shadow:0 2px 12px rgba(0,0,0,0.05);border:1.5px solid transparent;transition:all 0.25s;cursor:pointer;display:flex;align-items:center;gap:14px;}
+.week-row:hover{transform:translateX(-3px);box-shadow:0 4px 20px rgba(0,0,0,0.09);}
+.week-row.active-week{border-color:var(--rose);}
+.week-row.week-done{background:linear-gradient(135deg,white,rgba(107,207,176,0.06));border-color:var(--green);}
+.week-num-badge{width:40px;height:40px;border-radius:12px;background:var(--cream);color:var(--muted);font-weight:800;font-size:0.9rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.week-row.active-week .week-num-badge{background:linear-gradient(135deg,var(--rose),var(--coral));color:white;}
+.week-row.week-done .week-num-badge{background:var(--green);color:white;}
+.week-info{flex:1;}
+.week-label{font-size:0.88rem;font-weight:700;color:var(--text);}
+.week-dates{font-size:0.73rem;color:var(--muted);margin-top:2px;}
+.week-dots{display:flex;gap:4px;align-items:center;}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--cream);border:1.5px solid rgba(0,0,0,0.1);transition:all 0.2s;}
+.dot.done{background:var(--green);border-color:var(--green);}
+.dot.rest{background:var(--sand);border-color:rgba(0,0,0,0.07);}
+.dot.active{background:var(--rose);border-color:var(--rose);}
+.week-mins{font-size:0.75rem;color:var(--muted);font-weight:600;white-space:nowrap;}
+
+/* CURRENT WEEK DETAIL */
+.week-detail{background:white;border-radius:26px;padding:24px;box-shadow:var(--card-shadow);margin-top:10px;border:2px solid rgba(255,107,157,0.15);animation:fadeUp 0.35s ease;}
+.wd-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.wd-title{font-size:1.05rem;font-weight:800;color:var(--text);}
+.wd-week-ring{display:flex;align-items:center;gap:8px;}
+svg.mini-ring{width:52px;height:52px;}
+
+/* DAY CARDS inside week detail */
+.day-card{border-radius:16px;padding:14px 16px;border:1.5px solid rgba(0,0,0,0.06);margin-bottom:10px;transition:all 0.25s;position:relative;overflow:hidden;}
+.day-card::after{content:'';position:absolute;right:0;top:0;bottom:0;width:4px;background:var(--day-color,#ddd);border-radius:0 16px 16px 0;}
+.day-card.done-card{background:linear-gradient(135deg,white,rgba(var(--day-rgb),0.05));border-color:var(--day-color);}
+.day-card.rest-card{background:var(--sand);border-color:rgba(0,0,0,0.04);}
+.dc-header{display:flex;align-items:center;justify-content:space-between;}
+.dc-left{display:flex;align-items:center;gap:10px;}
+.dc-num{width:32px;height:32px;border-radius:10px;background:var(--day-color);color:white;font-weight:800;font-size:0.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dc-title{font-size:0.88rem;font-weight:700;}
+.dc-sub{font-size:0.72rem;color:var(--muted);margin-top:1px;}
+.check-btn{width:36px;height:36px;border-radius:50%;border:2px solid var(--day-color);background:white;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.check-btn:hover{transform:scale(1.12);}
+.check-btn.on{background:var(--day-color);border-color:var(--day-color);}
+.dc-desc{font-size:0.78rem;color:var(--muted);background:var(--cream);border-radius:10px;padding:8px 12px;margin:10px 0 8px;}
+.dc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.dc-input-wrap label{font-size:0.67rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;}
+.dc-input-wrap input{width:100%;background:var(--cream);border:1.5px solid rgba(0,0,0,0.07);border-radius:9px;padding:7px 10px;font-family:'Tajawal',sans-serif;font-size:0.82rem;color:var(--text);outline:none;transition:border-color 0.2s;}
+.dc-input-wrap input:focus{border-color:var(--day-color);}
+.dc-notes textarea{width:100%;background:var(--cream);border:1.5px solid rgba(0,0,0,0.07);border-radius:9px;padding:7px 10px;font-family:'Tajawal',sans-serif;font-size:0.78rem;color:var(--text);resize:none;height:50px;outline:none;transition:border-color 0.2s;}
+.dc-notes label{font-size:0.67rem;font-weight:600;color:var(--muted);display:block;margin-bottom:3px;}
+.dc-notes textarea:focus{border-color:var(--day-color);}
+.bonus-section{margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.07);}
+.bonus-label{font-size:0.7rem;font-weight:700;color:var(--muted);margin-bottom:6px;}
+.bonus-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.b-chip{background:var(--cream);border:1.5px solid rgba(0,0,0,0.07);border-radius:20px;padding:4px 10px;font-size:0.7rem;color:var(--muted);cursor:pointer;transition:all 0.2s;user-select:none;font-weight:600;}
+.b-chip.on{background:var(--day-color);color:white;border-color:transparent;}
+
+/* MONTHLY WEIGHT CHECKIN */
+.weight-checkin{background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.08));border:1.5px solid rgba(102,126,234,0.2);border-radius:20px;padding:18px 20px;margin-top:14px;}
+.wc-title{font-size:0.88rem;font-weight:800;color:#5a6fd6;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.wc-body{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.wc-input-wrap{flex:1;min-width:120px;}
+.wc-input-wrap label{font-size:0.72rem;font-weight:600;color:var(--muted);display:block;margin-bottom:4px;}
+.wc-input-wrap input{width:100%;background:white;border:1.5px solid rgba(102,126,234,0.25);border-radius:12px;padding:10px 14px;font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;color:var(--text);text-align:center;outline:none;transition:border-color 0.2s;}
+.wc-input-wrap input:focus{border-color:#5a6fd6;}
+.wc-result{background:white;border-radius:14px;padding:12px 16px;text-align:center;min-width:100px;}
+.wc-change{font-size:1.3rem;font-weight:900;}
+.wc-change.loss{color:var(--green);}
+.wc-change.gain{color:#FF6B6B;}
+.wc-change.same{color:var(--muted);}
+.wc-note{font-size:0.7rem;color:var(--muted);margin-top:3px;}
+.save-wc-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:12px;padding:10px 18px;font-family:'Tajawal',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;transition:transform 0.2s;white-space:nowrap;}
+.save-wc-btn:hover{transform:scale(1.04);}
+
+/* YEAR PROGRESS */
+.year-heatmap{background:white;border-radius:26px;padding:22px;box-shadow:var(--card-shadow);margin-bottom:28px;animation:fadeUp 0.6s ease 0.3s both;}
+.yh-title{font-size:1rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.heatmap-grid{display:grid;grid-template-columns:repeat(52,1fr);gap:3px;}
+.hm-cell{aspect-ratio:1;border-radius:3px;background:rgba(0,0,0,0.05);transition:all 0.2s;cursor:default;}
+.hm-cell.hm-done{background:var(--green);}
+.hm-cell.hm-partial{background:#FFD166;}
+.hm-cell.hm-rest{background:rgba(0,0,0,0.04);}
+.hm-cell.hm-current{outline:2px solid var(--rose);outline-offset:1px;}
+.hm-legend{display:flex;align-items:center;gap:12px;margin-top:10px;font-size:0.72rem;color:var(--muted);}
+.hm-swatch{width:12px;height:12px;border-radius:3px;}
+
+/* WEIGHT CHART */
+.weight-chart-section{background:white;border-radius:26px;padding:22px;box-shadow:var(--card-shadow);margin-bottom:28px;animation:fadeUp 0.6s ease 0.35s both;}
+.wcs-title{font-size:1rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.chart-wrap{position:relative;height:160px;}
+canvas#weightChart{width:100%;height:100%;}
+
+/* ACHIEVEMENTS */
+.achievements{background:white;border-radius:26px;padding:22px;box-shadow:var(--card-shadow);margin-bottom:28px;}
+.ach-title{font-size:1rem;font-weight:800;margin-bottom:14px;}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.ach-badge{background:var(--cream);border-radius:16px;padding:14px 10px;text-align:center;border:1.5px solid rgba(0,0,0,0.05);transition:all 0.2s;}
+.ach-badge.unlocked{background:linear-gradient(135deg,rgba(255,107,157,0.08),rgba(255,140,105,0.08));border-color:rgba(255,107,157,0.2);}
+.ach-icon{font-size:1.8rem;display:block;margin-bottom:4px;filter:grayscale(1);opacity:0.4;transition:all 0.3s;}
+.ach-badge.unlocked .ach-icon{filter:none;opacity:1;}
+.ach-name{font-size:0.7rem;font-weight:700;color:var(--muted);}
+.ach-badge.unlocked .ach-name{color:var(--text);}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:white;padding:12px 24px;border-radius:30px;font-size:0.85rem;font-weight:600;z-index:2000;transition:transform 0.3s ease;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;pointer-events:none;z-index:9999;inset:0;}
+.confetti-dot{position:absolute;width:8px;height:8px;border-radius:50%;animation:cfall 1.1s ease-out forwards;}
+@keyframes cfall{0%{opacity:1;transform:translateY(0) rotate(0);}100%{opacity:0;transform:translateY(130px) rotate(400deg);}}
+
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.3);}100%{transform:scale(1);}}
+.pop{animation:pop 0.3s ease;}
+
+/* TABS CONTENT */
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+@media(max-width:520px){
+  .year-overview{grid-template-columns:repeat(2,1fr);}
+  .ach-grid{grid-template-columns:repeat(3,1fr);}
+  .heatmap-grid{grid-template-columns:repeat(26,1fr);gap:2px;}
+  .header h1{font-size:1.8rem;}
+  .weight-banner{gap:12px;}
+  .wb-num{font-size:1.5rem;}
+  .dc-inputs{grid-template-columns:1fr 1fr;}
+}
+
+/* ── DESIGNER FOOTER BADGE ── */
+.designer-footer{text-align:center;padding:48px 20px 36px;position:relative;}
+.designer-badge{display:inline-flex;flex-direction:column;align-items:center;gap:0;position:relative;}
+.db-glow{position:absolute;width:180px;height:180px;background:radial-gradient(circle,rgba(255,107,157,0.18) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:glowPulse 3s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15);}}
+.db-rope{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.db-rope-line{width:38px;height:2.5px;background:linear-gradient(90deg,transparent,var(--rose),transparent);border-radius:2px;}
+.db-rope-knot{font-size:1.1rem;animation:dbspin 8s linear infinite;}
+@keyframes dbspin{to{transform:rotate(360deg);}}
+.db-card{background:white;border:1.5px solid rgba(255,107,157,0.15);border-radius:22px;padding:18px 30px 16px;box-shadow:0 6px 32px rgba(255,107,157,0.1),0 1px 0 rgba(255,255,255,0.9) inset;position:relative;overflow:hidden;}
+.db-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--rose),var(--coral),var(--yellow),var(--green),var(--purple),var(--rose));background-size:200% 100%;animation:shimmer 3s linear infinite;}
+@keyframes shimmer{to{background-position:-200% 0;}}
+.db-crafted{font-size:0.65rem;font-weight:700;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;opacity:0.7;}
+.db-name-wrap{display:flex;align-items:center;gap:8px;justify-content:center;}
+.db-icon-circle{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--coral));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;box-shadow:0 3px 10px rgba(255,107,157,0.35);}
+.db-name{font-size:1.05rem;font-weight:900;background:linear-gradient(135deg,var(--rose),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:0.02em;}
+.db-title-row{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:5px;}
+.db-dot{width:4px;height:4px;border-radius:50%;background:var(--rose);opacity:0.4;}
+.db-role{font-size:0.72rem;color:var(--muted);font-weight:600;}
+.db-year{font-size:0.68rem;color:rgba(155,122,110,0.45);margin-top:8px;font-weight:500;letter-spacing:0.05em;}
+.ob-designer-credit{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;padding-top:16px;border-top:1px dashed rgba(255,107,157,0.2);}
+.ob-designer-credit span{font-size:0.7rem;color:rgba(155,122,110,0.6);font-weight:600;}
+.ob-name-credit{font-size:0.72rem;font-weight:800;background:linear-gradient(135deg,var(--rose),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="confetti"></div>
+<div class="toast" id="toast"></div>
+
+<!-- ONBOARDING -->
+<div class="onboard-overlay" id="onboard">
+  <div class="onboard-box">
+    <span class="ob-icon">🪢</span>
+    <h2>يلا نبدأ!</h2>
+    <p>برنامجك لسنة كاملة من نط الحبل<br>أدخلي اسمك ووزنك لنتابع رحلتك 💪</p>
+    <div class="weight-input-wrap" style="margin-bottom:12px;">
+      <label>✍️ اسمك</label>
+      <input type="text" id="ob-name" placeholder="مثال: سارة" maxlength="20" style="font-size:1.1rem;">
+    </div>
+    <div class="weight-input-wrap">
+      <label>⚖️ وزنك الحالي (كيلوغرام)</label>
+      <input type="number" id="ob-weight" placeholder="مثال: 68.5" min="30" max="200" step="0.1">
+    </div>
+    <button class="ob-btn" onclick="startProgram()">🚀 ابدئي البرنامج!</button>
+    <div class="ob-designer-credit">
+      <span>✦ تصميم وبرمجة</span>
+      <span class="ob-name-credit">eng.islam AD</span>
+      <span>✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- DAILY GREETING -->
+<div class="greeting-overlay hidden" id="greeting-overlay">
+  <div class="greeting-box">
+    <span class="gr-icon" id="gr-icon">🌸</span>
+    <div class="gr-name" id="gr-name">صباح الخير!</div>
+    <div class="gr-time" id="gr-time"></div>
+    <div class="gr-msg" id="gr-msg"></div>
+    <div class="gr-stats" id="gr-stats"></div>
+    <button class="gr-btn" onclick="closeGreeting()">💪 يلا نتمرن!</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="header">
+    <span class="rope-emoji">🪢</span>
+    <h1>برنامج نط الحبل</h1>
+    <div class="sub" id="header-sub">سنة كاملة من التحول 🔥</div>
+  </div>
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs" id="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('overview')">🏠 الرئيسية</button>
+    <button class="tab-btn" onclick="switchTab('program')">📅 البرنامج</button>
+    <button class="tab-btn" onclick="switchTab('weight')">⚖️ الوزن</button>
+    <button class="tab-btn" onclick="switchTab('achievements')">🏆 الإنجازات</button>
+  </div>
+
+  <!-- OVERVIEW TAB -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="year-overview">
+      <div class="overview-card">
+        <div class="ov-num" id="ov-weeks-done">0</div>
+        <div class="ov-label">📅 أسابيع مكتملة</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-num" id="ov-days-done">0</div>
+        <div class="ov-label">✅ أيام تمرين</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-num" id="ov-total-mins">0</div>
+        <div class="ov-label">⏱ دقائق إجمالية</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-num" id="ov-streak">0</div>
+        <div class="ov-label">🔥 أطول سلسلة</div>
+      </div>
+    </div>
+
+    <div class="weight-banner" id="weight-banner">
+      <div class="wb-stat">
+        <div class="wb-num" id="wb-start">—</div>
+        <div class="wb-label">الوزن الابتدائي</div>
+      </div>
+      <div class="wb-divider"></div>
+      <div class="wb-stat">
+        <div class="wb-num" id="wb-current">—</div>
+        <div class="wb-label">الوزن الحالي</div>
+      </div>
+      <div class="wb-divider"></div>
+      <div class="wb-stat">
+        <div class="wb-num wb-change" id="wb-diff">—</div>
+        <div class="wb-label">التغيير الكلي</div>
+      </div>
+    </div>
+
+    <div class="year-heatmap">
+      <div class="yh-title">📊 خريطة السنة</div>
+      <div class="heatmap-grid" id="heatmap"></div>
+      <div class="hm-legend">
+        <div class="hm-swatch" style="background:rgba(0,0,0,0.05)"></div><span>لم يبدأ</span>
+        <div class="hm-swatch" style="background:#FFD166"></div><span>جزئي</span>
+        <div class="hm-swatch" style="background:#6BCFB0"></div><span>مكتمل</span>
+        <div class="hm-swatch" style="outline:2px solid var(--rose);outline-offset:1px;"></div><span>الأسبوع الحالي</span>
+      </div>
+    </div>
+
+    <div class="weight-chart-section">
+      <div class="wcs-title">📈 منحنى الوزن</div>
+      <div class="chart-wrap">
+        <canvas id="weightChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRAM TAB -->
+  <div class="tab-content" id="tab-program">
+    <div id="months-container"></div>
+  </div>
+
+  <!-- WEIGHT TAB -->
+  <div class="tab-content" id="tab-weight">
+    <div id="weight-history-container"></div>
+  </div>
+
+  <!-- ACHIEVEMENTS TAB -->
+  <div class="tab-content" id="tab-achievements">
+    <div class="achievements">
+      <div class="ach-title">🏆 إنجازاتك</div>
+      <div class="ach-grid" id="ach-grid"></div>
+    </div>
+  </div>
+
+  <!-- DESIGNER FOOTER -->
+  <div class="designer-footer">
+    <div class="designer-badge">
+      <div class="db-glow"></div>
+      <div class="db-rope">
+        <div class="db-rope-line"></div>
+        <div class="db-rope-knot">🪢</div>
+        <div class="db-rope-line"></div>
+      </div>
+      <div class="db-card">
+        <div class="db-crafted">Designed &amp; Built by</div>
+        <div class="db-name-wrap">
+          <div class="db-icon-circle">👩‍💻</div>
+          <div class="db-name">eng.islam AD</div>
+        </div>
+        <div class="db-title-row">
+          <div class="db-dot"></div>
+          <div class="db-role">UI Designer &amp; frontend Developer</div>
+          <div class="db-dot"></div>
+        </div>
+        <div class="db-year">© 2026 · Jump Rope Year Tracker</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA STRUCTURES
+// ══════════════════════════════════════════
+const TOTAL_WEEKS = 52;
+const WEEKS_PER_MONTH = 4;
+const MONTHS = 13; // 52 weeks / 4 = 13 months
+
+const MONTH_NAMES = [
+  'الشهر الأول','الشهر الثاني','الشهر الثالث','الشهر الرابع',
+  'الشهر الخامس','الشهر السادس','الشهر السابع','الشهر الثامن',
+  'الشهر التاسع','الشهر العاشر','الشهر الحادي عشر','الشهر الثاني عشر','الشهر الثالث عشر'
+];
+
+const MONTH_COLORS = [
+  ['#FF6B9D','#FF8C69'],['#6BCFB0','#3BB89A'],['#FFD166','#FF9F43'],
+  ['#A78BFA','#7C3AED'],['#FF6B9D','#C44587'],['#6BCFB0','#06B6D4'],
+  ['#FF8C69','#E55039'],['#FFD166','#F39C12'],['#A78BFA','#8B5CF6'],
+  ['#6BCFB0','#10B981'],['#FF6B9D','#FF8C69'],['#667EEA','#764BA2'],
+  ['#6BCFB0','#FFD166']
+];
+
+// Week templates — 4 patterns that cycle
+const WEEK_TEMPLATES = [
+  // Week type A: foundation
+  [
+    {type:'easy',color:'#6BCFB0',rgb:'107,207,176',emoji:'🟢',title:'خفيف',sub:'تأسيس وتدفئة',desc:'<b>30ث نط + 30ث راحة</b> × 10 جولات',dur:'≈10 دقائق',rest:false},
+    {type:'medium',color:'#FFD166',rgb:'255,209,102',emoji:'🟡',title:'متوسط',sub:'رفع الطاقة',desc:'<b>45ث نط + 30ث راحة</b> × 12 جولة',dur:'≈15 دقيقة',rest:false},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'جسمك يتعافى',desc:'راحة أو مشي خفيف',dur:'يوم راحة',rest:true},
+    {type:'hard',color:'#FF6B9D',rgb:'255,107,157',emoji:'🔴',title:'حرق أعلى',sub:'الكارديو الحقيقي!',desc:'<b>1 دقيقة نط + 30ث راحة</b> × 12 جولة',dur:'≈18 دقيقة',rest:false,bonus:true},
+    {type:'medium',color:'#FF8C69',rgb:'255,140,105',emoji:'🟡',title:'تنويع + شد',sub:'تناوب السرعة',desc:'<b>30ث سريع + 30ث بطيء</b> × 15 جولة',dur:'≈15 دقيقة',rest:false,bonus:true},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'استرخي ✨',desc:'راحة تامة — جسمك يستحق',dur:'يوم راحة',rest:true},
+    {type:'test',color:'#A78BFA',rgb:'167,139,250',emoji:'🟢',title:'اختبار خفيف',sub:'قياس قدرتك',desc:'نط <b>مستمر 5-10 دقائق</b> حسب قدرتك',dur:'5-10 دقائق',rest:false}
+  ],
+  // Week type B: progression
+  [
+    {type:'easy',color:'#6BCFB0',rgb:'107,207,176',emoji:'🟢',title:'تفعيل',sub:'إعادة تشغيل',desc:'<b>40ث نط + 20ث راحة</b> × 10 جولات',dur:'≈10 دقائق',rest:false},
+    {type:'medium',color:'#FFD166',rgb:'255,209,102',emoji:'🟡',title:'متوسط+',sub:'تصاعد تدريجي',desc:'<b>50ث نط + 25ث راحة</b> × 12 جولة',dur:'≈16 دقيقة',rest:false},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'',desc:'راحة أو يوغا خفيف',dur:'يوم راحة',rest:true},
+    {type:'hard',color:'#FF6B9D',rgb:'255,107,157',emoji:'🔴',title:'HIIT نط',sub:'كارديو مكثف',desc:'<b>1.5 دقيقة نط + 30ث راحة</b> × 10 جولات',dur:'≈20 دقيقة',rest:false,bonus:true},
+    {type:'medium',color:'#FF8C69',rgb:'255,140,105',emoji:'🟡',title:'تنسيق + قوة',sub:'مزيج ممتاز',desc:'<b>1 دقيقة سريع + 30ث بطيء</b> × 12 جولة',dur:'≈18 دقيقة',rest:false,bonus:true},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'',desc:'راحة تامة',dur:'يوم راحة',rest:true},
+    {type:'test',color:'#A78BFA',rgb:'167,139,250',emoji:'🟣',title:'اختبار أسبوعي',sub:'قياس التقدم',desc:'نط <b>مستمر 10-15 دقيقة</b>',dur:'10-15 دقيقة',rest:false}
+  ],
+  // Week type C: intensity
+  [
+    {type:'easy',color:'#6BCFB0',rgb:'107,207,176',emoji:'🟢',title:'إحماء قوي',sub:'تجهيز الجسم',desc:'<b>45ث نط + 20ث راحة</b> × 10 جولات',dur:'≈11 دقيقة',rest:false},
+    {type:'hard',color:'#FF6B9D',rgb:'255,107,157',emoji:'🔴',title:'حرق مزدوج',sub:'يوم كارديو',desc:'<b>2 دقيقة نط + 45ث راحة</b> × 8 جولات',dur:'≈22 دقيقة',rest:false,bonus:true},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'',desc:'مشي 30-40 دقيقة',dur:'يوم راحة',rest:true},
+    {type:'medium',color:'#FFD166',rgb:'255,209,102',emoji:'🟡',title:'تنشيط',sub:'استئناف نشيط',desc:'<b>1 دقيقة نط + 20ث راحة</b> × 12 جولة',dur:'≈16 دقيقة',rest:false},
+    {type:'hard',color:'#FF8C69',rgb:'255,140,105',emoji:'🔴',title:'تحدي الأسبوع',sub:'اختبر نفسك!',desc:'<b>3 دقائق نط + 1 دقيقة راحة</b> × 5 جولات',dur:'≈20 دقيقة',rest:false,bonus:true},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'',desc:'راحة تامة — جسمك يستحق',dur:'يوم راحة',rest:true},
+    {type:'test',color:'#A78BFA',rgb:'167,139,250',emoji:'🟣',title:'قياس الأسبوع',sub:'تقدمك واضح!',desc:'نط <b>مستمر 15-20 دقيقة</b>',dur:'15-20 دقيقة',rest:false}
+  ],
+  // Week type D: advanced
+  [
+    {type:'medium',color:'#6BCFB0',rgb:'107,207,176',emoji:'🟢',title:'انطلاق',sub:'بداية قوية',desc:'<b>1 دقيقة نط + 20ث راحة</b> × 10 جولات',dur:'≈12 دقيقة',rest:false},
+    {type:'hard',color:'#FF6B9D',rgb:'255,107,157',emoji:'🔴',title:'HIIT متقدم',sub:'للمستوى العالي',desc:'<b>2 دقيقة نط + 30ث راحة</b> × 10 جولات',dur:'≈25 دقيقة',rest:false,bonus:true},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة فعّالة',sub:'',desc:'يوغا أو تمدد 20 دقيقة',dur:'يوم راحة',rest:true},
+    {type:'hard',color:'#FFD166',rgb:'255,209,102',emoji:'🔴',title:'تحمّل',sub:'بني اللياقة',desc:'<b>3 دقائق نط + 45ث راحة</b> × 7 جولات',dur:'≈26 دقيقة',rest:false,bonus:true},
+    {type:'medium',color:'#FF8C69',rgb:'255,140,105',emoji:'🟡',title:'تنوع + شد',sub:'اكتمال التمرين',desc:'<b>90ث سريع + 30ث بطيء</b> × 10 جولات',dur:'≈20 دقيقة',rest:false,bonus:true},
+    {type:'rest',color:'#C8B9B0',rgb:'200,185,176',emoji:'💤',title:'راحة',sub:'',desc:'راحة تامة',dur:'يوم راحة',rest:true},
+    {type:'test',color:'#A78BFA',rgb:'167,139,250',emoji:'🟣',title:'اختبار شهري',sub:'قياس اللياقة',desc:'نط <b>مستمر 20-25 دقيقة</b>',dur:'20-25 دقيقة',rest:false}
+  ]
+];
+
+const BONUS_ITEMS = ['سكوات 15×3 🦵','بلانك 45ث ×3 🧘‍♀️','Lunges 10 لكل رجل 🔥'];
+
+const ACHIEVEMENTS_DEF = [
+  {id:'first_day',icon:'🌱',name:'اليوم الأول',condition:s=>s.totalDays>=1},
+  {id:'week1',icon:'⭐',name:'أسبوع كامل',condition:s=>s.weeksComplete>=1},
+  {id:'month1',icon:'🏅',name:'شهر كامل',condition:s=>s.weeksComplete>=4},
+  {id:'streak7',icon:'🔥',name:'7 أيام متتالية',condition:s=>s.maxStreak>=7},
+  {id:'streak30',icon:'💎',name:'30 يوم متتالي',condition:s=>s.maxStreak>=30},
+  {id:'half_year',icon:'🚀',name:'نصف سنة',condition:s=>s.weeksComplete>=26},
+  {id:'full_year',icon:'👑',name:'سنة كاملة',condition:s=>s.weeksComplete>=52},
+  {id:'100days',icon:'💯',name:'100 يوم تمرين',condition:s=>s.totalDays>=100},
+  {id:'weight5',icon:'🌟',name:'خسرتِ 5 كيلو',condition:s=>s.weightLost>=5},
+  {id:'weight10',icon:'🏆',name:'خسرتِ 10 كيلو',condition:s=>s.weightLost>=10},
+  {id:'mins500',icon:'⚡',name:'500 دقيقة تمرين',condition:s=>s.totalMins>=500},
+  {id:'mins1000',icon:'🎖️',name:'1000 دقيقة',condition:s=>s.totalMins>=1000},
+];
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let S = JSON.parse(localStorage.getItem('jr_year_v1') || 'null') || {
+  started: false,
+  userName: '',
+  startWeight: null,
+  currentWeek: 1,
+  openWeek: 1,
+  weeks: {},
+  monthWeights: {},
+  openMonth: null,
+  lastGreetDate: null
+};
+
+function save() { localStorage.setItem('jr_year_v1', JSON.stringify(S)); }
+
+// ══════════════════════════════════════════
+// DAILY MESSAGES
+// ══════════════════════════════════════════
+const DAILY_MSGS = [
+  {icon:'🌅',msg:'كل يوم جديد هو فرصة جديدة لتكوني أقوى. جسمك يستحق هذا الاهتمام 🌸'},
+  {icon:'🔥',msg:'الاستمرارية تبني العادات، والعادات تبني الجسم. أنتِ على الطريق الصح! 💪'},
+  {icon:'⭐',msg:'لا يوجد تمرين صغير — كل قفزة تحرق وتقوي وتبني. يلا! 🚀'},
+  {icon:'🌺',msg:'جسمك يتذكر كل تمرين حتى لو أنتِ نسيتِ. استثمري في نفسك اليوم ✨'},
+  {icon:'💎',msg:'الفرق بين من تحلمين أن تكوني ومن أنتِ عليه الآن — هو الاستمرار فقط 🎯'},
+  {icon:'🌟',msg:'أقوى الناس ليسوا من لا يتعبون، بل من يكملون رغم التعب. ثقي بنفسك! 🏆'},
+  {icon:'🦋',msg:'التحول لا يحدث في يوم، لكنه يبدأ بخطوة واحدة — خطوتك اليوم 🌸'},
+  {icon:'⚡',msg:'جسمك أقوى من عقلك يقول. حين تريدين التوقف، تذكري لماذا بدأتِ! 💫'},
+  {icon:'🌈',msg:'كل أسبوع تمرين هو استثمار في صحتك وثقتك وطاقتك. تستحقين ذلك! 🥰'},
+  {icon:'🏅',msg:'البطولة ليست في الجيم الفاخر، بل في الحبل البسيط والإرادة القوية 🪢'},
+  {icon:'🌙',msg:'حتى في أصعب الأيام، 10 دقائق كافية لتغيير مزاجك وجسمك. ابدئي! ✨'},
+  {icon:'🎯',msg:'كل قفزة تحرق دهون، وكل دهون تُحرق تقربك من هدفك. يلا نطي! 🔥'},
+  {icon:'💪',msg:'اليوم قد تتعبين، وغداً ستشكرين نفسك. قراري أنتِ التي تعرفين ✨'},
+  {icon:'🌿',msg:'الصحة عادة تُبنى، ليست موهبة تُولد بها. وأنتِ تبنينها الآن 🌱'},
+  {icon:'🎉',msg:'احتفلي بكل يوم تمرين كأنه إنجاز — لأنه إنجاز فعلاً! 🏆'},
+  {icon:'🕊️',msg:'حركة جسمك تحرر عقلك. التمرين ليس عقاباً، هو هدية تعطينها لنفسك 💖'},
+  {icon:'⚡',msg:'لا تنتظري الإحساس المثالي لتبدئي. ابدئي وسيأتي الإحساس وراءك! 🚀'},
+  {icon:'🌺',msg:'جسمك يحبك ويستجيب لك. كل تمرين رسالة حب لنفسك 🌸'},
+  {icon:'🔑',msg:'السر ليس في التمرين الشديد، بل في عدم التوقف. أنتِ تفهمين! 💎'},
+  {icon:'🌠',msg:'نجمة التغيير تُضاء بلحظة قرار. لحظتك هي الآن! ✨'},
+  {icon:'🦁',msg:'في داخلك قوة أكبر مما تتخيلين. التمرين يذكّرك بها كل يوم 👑'},
+  {icon:'🌊',msg:'مثل الموج الصغير يبني الساحل، تمرينك اليومي يبني جسمك ببطء وثبات 💪'},
+  {icon:'🎵',msg:'إيقاع حبلك هو موسيقاك الخاصة. العبي، تحركي، ابتسمي! 🎶'},
+  {icon:'🏔️',msg:'القمة لا تُرى من البداية، لكن كل خطوة تقربك منها. استمري! 🚀'},
+  {icon:'💐',msg:'اليوم يومك. هذه الدقائق لكِ وحدكِ. استمتعي بهن! 🌸'},
+  {icon:'🌞',msg:'الصباح الذي تتمرنين فيه يختلف تماماً عن غيره. جربي وستعرفين! ☀️'},
+  {icon:'🎪',msg:'حبل النط لا يحكم عليكِ، لا يقارنكِ، فقط يستجيب لكِ. كم هو جميل! 🪢'},
+  {icon:'💫',msg:'كل أسبوع تكملينه هو إثبات لنفسك أنكِ أقوى من أعذارك 🏆'},
+];
+
+function getDailyMsg() {
+  const day = new Date().getDay(); // 0-6
+  const weekNum = S.currentWeek || 1;
+  const idx = (day + weekNum * 3) % DAILY_MSGS.length;
+  return DAILY_MSGS[idx];
+}
+
+function getTimeGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'صباح الخير';
+  if (h < 17) return 'مساء الخير';
+  return 'مساء النور';
+}
+
+function showGreeting() {
+  const today = new Date().toDateString();
+  if (S.lastGreetDate === today) return; // already shown today
+  const name = S.userName || 'حبيبتي';
+  const {icon, msg} = getDailyMsg();
+  const timeStr = getTimeGreeting();
+  const st = calcStats();
+
+  document.getElementById('gr-icon').textContent = icon;
+  document.getElementById('gr-name').textContent = `${timeStr}، ${name}! 🌸`;
+  document.getElementById('gr-time').textContent = `${new Date().toLocaleDateString('ar-SA', {weekday:'long', day:'numeric', month:'long'})}`;
+  document.getElementById('gr-msg').textContent = msg;
+  document.getElementById('gr-stats').innerHTML = `
+    <div class="gr-stat"><div class="gr-stat-num">${st.weeksComplete}</div><div class="gr-stat-lbl">أسابيع مكتملة</div></div>
+    <div class="gr-stat"><div class="gr-stat-num">${st.totalDays}</div><div class="gr-stat-lbl">أيام تمرين</div></div>
+    <div class="gr-stat"><div class="gr-stat-num">${st.maxStreak}</div><div class="gr-stat-lbl">أطول سلسلة 🔥</div></div>
+  `;
+  document.getElementById('greeting-overlay').classList.remove('hidden');
+}
+
+function closeGreeting() {
+  S.lastGreetDate = new Date().toDateString();
+  save();
+  document.getElementById('greeting-overlay').classList.add('hidden');
+}
+
+// ══════════════════════════════════════════
+// ONBOARDING
+// ══════════════════════════════════════════
+function startProgram() {
+  const name = document.getElementById('ob-name').value.trim();
+  const v = parseFloat(document.getElementById('ob-weight').value);
+  if (!name) { showToast('أدخلي اسمك يا عزيزتي 😊'); return; }
+  if (!v || v < 30 || v > 250) { showToast('أدخلي وزناً صحيحاً 😊'); return; }
+  S.started = true;
+  S.userName = name;
+  S.startWeight = v;
+  S.monthWeights[1] = v;
+  save();
+  document.getElementById('onboard').classList.add('hidden');
+  renderAll();
+  showToast(`🎉 أهلاً ${name}! رحلتك بدأت الآن!`);
+  setTimeout(showGreeting, 600);
+}
+
+window.onload = () => {
+  if (S.started) {
+    document.getElementById('onboard').classList.add('hidden');
+    renderAll();
+    setTimeout(showGreeting, 500);
+  }
+};
+
+// ══════════════════════════════════════════
+// RENDER ALL
+// ══════════════════════════════════════════
+function renderAll() {
+  updateHeaderSub();
+  renderOverview();
+  renderProgram();
+  renderWeightTab();
+  renderAchievements();
+}
+
+function updateHeaderSub() {
+  const wk = S.currentWeek;
+  const m = Math.ceil(wk / 4);
+  const name = S.userName ? ` · أهلاً ${S.userName} 🌸` : '';
+  document.getElementById('header-sub').textContent = `الأسبوع ${wk} من 52 · ${MONTH_NAMES[m-1]} 🔥${name}`;
+}
+
+// ══════════════════════════════════════════
+// STATS CALCULATION
+// ══════════════════════════════════════════
+function calcStats() {
+  let totalDays=0, totalMins=0, weeksComplete=0, maxStreak=0, curStreak=0;
+  let streak=0;
+  for(let w=1;w<=TOTAL_WEEKS;w++){
+    const wd = S.weeks[w] || {};
+    const tmpl = WEEK_TEMPLATES[(w-1)%4];
+    const workDays = tmpl.filter(d=>!d.rest);
+    let wDone=0, wMins=0;
+    for(let d=1;d<=7;d++){
+      const dd = wd[d] || {};
+      const tmplDay = tmpl[d-1];
+      if(tmplDay.rest){ curStreak++; continue; }
+      if(dd.done){ wDone++; totalDays++; curStreak++; maxStreak=Math.max(maxStreak,curStreak); }
+      else { curStreak=0; }
+      const m=parseInt(dd.mins||0); if(!isNaN(m)) wMins+=m;
+      const mm=parseInt(dd.mins||0); if(!isNaN(mm)) totalMins+=mm;
+    }
+    if(wDone===workDays.length && workDays.length>0) weeksComplete++;
+  }
+  const startW = S.startWeight || 0;
+  const weights = Object.values(S.monthWeights).filter(x=>x);
+  const lastW = weights.length ? weights[weights.length-1] : startW;
+  const weightLost = Math.max(0, startW - lastW);
+  return {totalDays,totalMins,weeksComplete,maxStreak,weightLost,startW,lastW};
+}
+
+// ══════════════════════════════════════════
+// OVERVIEW TAB
+// ══════════════════════════════════════════
+function renderOverview() {
+  const st = calcStats();
+  document.getElementById('ov-weeks-done').textContent = st.weeksComplete;
+  document.getElementById('ov-days-done').textContent = st.totalDays;
+  document.getElementById('ov-total-mins').textContent = st.totalMins;
+  document.getElementById('ov-streak').textContent = st.maxStreak;
+
+  // Weight banner
+  document.getElementById('wb-start').textContent = st.startW ? st.startW+'kg' : '—';
+  document.getElementById('wb-current').textContent = st.lastW ? st.lastW+'kg' : '—';
+  const diff = st.startW && st.lastW ? (st.lastW - st.startW).toFixed(1) : null;
+  const diffEl = document.getElementById('wb-diff');
+  if(diff !== null){
+    const n = parseFloat(diff);
+    diffEl.textContent = (n<=0?'':'+') + diff + 'kg';
+    diffEl.className = 'wb-num wb-change ' + (n<0?'positive':n>0?'negative':'');
+  } else { diffEl.textContent='—'; }
+
+  renderHeatmap();
+  renderWeightChart();
+}
+
+function renderHeatmap() {
+  const grid = document.getElementById('heatmap');
+  grid.innerHTML = '';
+  for(let w=1;w<=TOTAL_WEEKS;w++){
+    const cell = document.createElement('div');
+    cell.className = 'hm-cell';
+    const wd = S.weeks[w] || {};
+    const tmpl = WEEK_TEMPLATES[(w-1)%4];
+    const workDays = tmpl.filter(d=>!d.rest);
+    const doneDays = workDays.filter((_,i)=>{ const idx=tmpl.indexOf(_)+1; return (wd[idx]||{}).done; }).length;
+    if(w===S.currentWeek) cell.classList.add('hm-current');
+    else if(doneDays===workDays.length && workDays.length>0) cell.classList.add('hm-done');
+    else if(doneDays>0) cell.classList.add('hm-partial');
+    cell.title = `أسبوع ${w}`;
+    grid.appendChild(cell);
+  }
+}
+
+function renderWeightChart() {
+  const canvas = document.getElementById('weightChart');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth * 2;
+  canvas.height = canvas.offsetHeight * 2;
+  ctx.scale(2,2);
+  const W = canvas.offsetWidth/2, H = canvas.offsetHeight/2;
+
+  const pts = [];
+  for(let m=1;m<=13;m++){
+    if(S.monthWeights[m]) pts.push({m, w: S.monthWeights[m]});
+  }
+  if(pts.length<2){ 
+    ctx.fillStyle='#ccc'; ctx.font='14px Tajawal'; ctx.textAlign='center';
+    ctx.fillText('سجّلي وزنك كل شهر لرؤية المنحنى 📈', W/2, H/2);
+    return; 
+  }
+
+  const minW = Math.min(...pts.map(p=>p.w))-2;
+  const maxW = Math.max(...pts.map(p=>p.w))+2;
+  const pad = {t:20,b:30,l:10,r:10};
+
+  const px = m => pad.l + ((m-1)/12)*(W-pad.l-pad.r);
+  const py = w => H-pad.b - ((w-minW)/(maxW-minW))*(H-pad.t-pad.b);
+
+  // Grid lines
+  ctx.strokeStyle='rgba(0,0,0,0.06)'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y = pad.t + i*(H-pad.t-pad.b)/4;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
+  }
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0,pad.t,0,H-pad.b);
+  grad.addColorStop(0,'rgba(255,107,157,0.25)');
+  grad.addColorStop(1,'rgba(255,107,157,0.01)');
+  ctx.beginPath();
+  ctx.moveTo(px(pts[0].m), py(pts[0].w));
+  pts.forEach(p=>ctx.lineTo(px(p.m),py(p.w)));
+  ctx.lineTo(px(pts[pts.length-1].m),H-pad.b);
+  ctx.lineTo(px(pts[0].m),H-pad.b);
+  ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle='#FF6B9D'; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.lineCap='round';
+  pts.forEach((p,i)=>i===0?ctx.moveTo(px(p.m),py(p.w)):ctx.lineTo(px(p.m),py(p.w)));
+  ctx.stroke();
+
+  // Dots
+  pts.forEach(p=>{
+    ctx.beginPath(); ctx.arc(px(p.m),py(p.w),4,0,Math.PI*2);
+    ctx.fillStyle='white'; ctx.fill();
+    ctx.strokeStyle='#FF6B9D'; ctx.lineWidth=2.5; ctx.stroke();
+    ctx.fillStyle='#666'; ctx.font='10px Tajawal'; ctx.textAlign='center';
+    ctx.fillText(p.w+'kg', px(p.m), py(p.w)-10);
+  });
+}
+
+// ══════════════════════════════════════════
+// PROGRAM TAB — MONTHS & WEEKS
+// ══════════════════════════════════════════
+function renderProgram() {
+  const container = document.getElementById('months-container');
+  container.innerHTML = '';
+
+  for(let m=1;m<=13;m++){
+    const startWeek = (m-1)*4+1;
+    const endWeek = Math.min(m*4, TOTAL_WEEKS);
+    const [c1,c2] = MONTH_COLORS[m-1];
+
+    // Calc month completion
+    let mDone=0, mTotal=0;
+    for(let w=startWeek;w<=endWeek;w++){
+      const tmpl = WEEK_TEMPLATES[(w-1)%4];
+      const wd = S.weeks[w]||{};
+      tmpl.forEach((d,i)=>{ if(!d.rest){ mTotal++; if((wd[i+1]||{}).done) mDone++; }});
+    }
+    const pct = mTotal>0 ? Math.round(mDone/mTotal*100) : 0;
+    const isCurrentMonth = S.currentWeek >= startWeek && S.currentWeek <= endWeek;
+    const collapsed = S.openMonth !== m && !isCurrentMonth;
+
+    const section = document.createElement('div');
+    section.className = 'month-section' + (collapsed?' collapsed':'');
+    section.id = `month-${m}`;
+
+    section.innerHTML = `
+      <div class="month-header" onclick="toggleMonth(${m})">
+        <div class="month-title">
+          <div class="month-badge" style="--m-color1:${c1};--m-color2:${c2}">${m}</div>
+          <div>
+            <div class="month-name">${MONTH_NAMES[m-1]}</div>
+            <div class="month-sub">الأسابيع ${startWeek}–${endWeek} · ${pct}% مكتمل</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="month-progress-bar" style="--m-color1:${c1};--m-color2:${c2}">
+            <div class="month-progress-fill" style="width:${pct}%"></div>
+          </div>
+          <span class="month-pct">${pct}%</span>
+          <span class="collapse-icon">▲</span>
+        </div>
+      </div>
+      <div class="month-body" style="max-height:${collapsed?'0':'3000px'}">
+        <div class="weeks-grid" id="weeks-m${m}"></div>
+        ${buildWeightCheckin(m)}
+      </div>
+    `;
+    container.appendChild(section);
+
+    // Build weeks
+    const weeksGrid = section.querySelector(`#weeks-m${m}`);
+    for(let w=startWeek;w<=endWeek;w++){
+      weeksGrid.appendChild(buildWeekRow(w, c1));
+      // Week detail (if open)
+      if(S.openWeek===w){
+        const detail = buildWeekDetail(w);
+        weeksGrid.appendChild(detail);
+      }
+    }
+  }
+}
+
+function buildWeekRow(w, color) {
+  const tmpl = WEEK_TEMPLATES[(w-1)%4];
+  const wd = S.weeks[w]||{};
+  const workDays = tmpl.filter(d=>!d.rest);
+  const doneDays = workDays.filter(d=>{ const i=tmpl.indexOf(d)+1; return (wd[i]||{}).done; }).length;
+  const isActive = w===S.currentWeek;
+  const isDone = doneDays===workDays.length && workDays.length>0;
+  let totalMins=0;
+  tmpl.forEach((_,i)=>{ const m=parseInt((wd[i+1]||{}).mins||0); if(!isNaN(m)) totalMins+=m; });
+
+  const row = document.createElement('div');
+  row.className='week-row'+(isActive?' active-week':'')+(isDone?' week-done':'');
+  row.onclick=()=>toggleWeek(w);
+
+  const dots = tmpl.map((d,i)=>{
+    const dd=wd[i+1]||{};
+    if(d.rest) return `<div class="dot rest"></div>`;
+    if(dd.done) return `<div class="dot done"></div>`;
+    if(w===S.currentWeek) return `<div class="dot active"></div>`;
+    return `<div class="dot"></div>`;
+  }).join('');
+
+  row.innerHTML=`
+    <div class="week-num-badge">${w}</div>
+    <div class="week-info">
+      <div class="week-label">الأسبوع ${w}</div>
+      <div class="week-dates">${doneDays}/${workDays.length} أيام</div>
+    </div>
+    <div class="week-dots">${dots}</div>
+    <div class="week-mins">${totalMins>0?totalMins+'د':''}</div>
+  `;
+  return row;
+}
+
+function buildWeekDetail(w) {
+  const tmpl = WEEK_TEMPLATES[(w-1)%4];
+  const wd = S.weeks[w]||{};
+  const workDays = tmpl.filter(d=>!d.rest);
+  const doneDays = workDays.filter(d=>{ const i=tmpl.indexOf(d)+1; return (wd[i]||{}).done; }).length;
+  const pct = workDays.length>0?Math.round(doneDays/workDays.length*100):0;
+  const circ=2*Math.PI*20;
+  const offset=circ-(pct/100)*circ;
+
+  const detail = document.createElement('div');
+  detail.className='week-detail';
+  detail.id=`week-detail-${w}`;
+
+  let daysHTML='';
+  tmpl.forEach((d,i)=>{
+    const dayNum=i+1;
+    const dd=wd[dayNum]||{};
+    const isDone=dd.done||false;
+    const bonusArr=dd.bonus||[];
+    const notesVal=(dd.notes||'').replace(/"/g,'&quot;');
+
+    daysHTML+=`<div class="day-card${isDone&&!d.rest?' done-card':''}${d.rest?' rest-card':''}" 
+      style="--day-color:${d.color};--day-rgb:${d.rgb}">
+      <div class="dc-header">
+        <div class="dc-left">
+          <div class="dc-num" style="background:${d.color}">${dayNum}</div>
+          <div>
+            <div class="dc-title">${d.emoji} ${d.title}</div>
+            <div class="dc-sub">${d.sub}</div>
+          </div>
+        </div>
+        ${d.rest?`<span style="font-size:0.8rem;color:var(--muted)">😴 راحة</span>`
+        :`<button class="check-btn${isDone?' on':''}" 
+            style="${isDone?`background:${d.color};border-color:${d.color}`:`border-color:${d.color}`}"
+            onclick="toggleDay(${w},${dayNum},this)">${isDone?'✓':''}</button>`}
+      </div>
+      <div class="dc-desc">${d.desc} — <b>${d.dur}</b></div>
+      ${!d.rest?`
+        <div class="dc-inputs">
+          <div class="dc-input-wrap">
+            <label>⏱ الدقائق الفعلية</label>
+            <input type="number" value="${dd.mins||''}" placeholder="مثال: 15" min="0" max="90"
+              onchange="setField(${w},${dayNum},'mins',this.value)" style="--day-color:${d.color}">
+          </div>
+          <div class="dc-input-wrap">
+            <label>🔄 عدد الجولات</label>
+            <input type="number" value="${dd.rounds||''}" placeholder="مثال: 12" min="0" max="30"
+              onchange="setField(${w},${dayNum},'rounds',this.value)">
+          </div>
+        </div>
+        <div class="dc-notes">
+          <label>📝 ملاحظاتك</label>
+          <textarea onchange="setField(${w},${dayNum},'notes',this.value)" 
+            placeholder="إحساسك، صعوبات، انجازات...">${dd.notes||''}</textarea>
+        </div>
+        ${d.bonus?`<div class="bonus-section">
+          <div class="bonus-label">💪 تمارين إضافية (اختياري):</div>
+          <div class="bonus-chips">
+            ${BONUS_ITEMS.map((item,bi)=>`
+              <div class="b-chip${bonusArr.includes(bi)?' on':''}"
+                style="${bonusArr.includes(bi)?`--day-color:${d.color};background:${d.color};color:white;border-color:transparent`:''}"
+                onclick="toggleBonus(${w},${dayNum},${bi},'${d.color}',this)">${item}</div>
+            `).join('')}
+          </div>
+        </div>`:''}
+      `:`<div style="font-size:0.78rem;color:var(--muted);text-align:center;padding:4px 0">خذي راحتك — هذا جزء مهم من البرنامج ✨</div>`}
+    </div>`;
+  });
+
+  detail.innerHTML=`
+    <div class="wd-header">
+      <div class="wd-title">📅 تفاصيل الأسبوع ${w}</div>
+      <div class="wd-week-ring">
+        <svg class="mini-ring" viewBox="0 0 52 52">
+          <circle fill="none" stroke="rgba(255,107,157,0.15)" stroke-width="5" cx="26" cy="26" r="20"/>
+          <circle fill="none" stroke="#FF6B9D" stroke-width="5" stroke-linecap="round"
+            stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+            transform="rotate(-90 26 26)" cx="26" cy="26" r="20"/>
+          <text x="26" y="27" text-anchor="middle" dominant-baseline="middle"
+            font-family="Tajawal" font-weight="900" font-size="10" fill="#FF6B9D">${pct}%</text>
+        </svg>
+      </div>
+    </div>
+    ${daysHTML}
+  `;
+  return detail;
+}
+
+function buildWeightCheckin(m) {
+  const endWeek = m*4;
+  const isMonthDone = S.currentWeek > endWeek;
+  const isCurrentMonth = S.currentWeek >= (m-1)*4+1 && S.currentWeek <= endWeek;
+  if(!isMonthDone && !isCurrentMonth) return '';
+
+  const savedW = S.monthWeights[m+1] || '';
+  const prevW = S.monthWeights[m] || S.startWeight || '';
+  let changeHTML='';
+  if(savedW && prevW){
+    const diff = (parseFloat(savedW)-parseFloat(prevW)).toFixed(1);
+    const n=parseFloat(diff);
+    const cls=n<0?'loss':n>0?'gain':'same';
+    const icon=n<0?'📉':n>0?'📈':'➡️';
+    changeHTML=`<div class="wc-result">
+      <div class="wc-change ${cls}">${icon} ${n<=0?'':'+'}${diff} kg</div>
+      <div class="wc-note">${n<0?'أحسنتِ! استمري 🌟':n>0?'لا بأس، استمري 💪':'ثبات — خطوة للأمام ✨'}</div>
+    </div>`;
+  }
+
+  return `<div class="weight-checkin" id="wc-${m}">
+    <div class="wc-title">⚖️ ${m<13?'تسجيل وزن نهاية الشهر '+(m)+':':' إنجازك السنوي!'}</div>
+    <div class="wc-body">
+      <div class="wc-input-wrap">
+        <label>وزنك الحالي (كيلوغرام)</label>
+        <input type="number" id="wc-input-${m}" value="${savedW}" placeholder="مثال: 65.0" 
+          min="30" max="250" step="0.1">
+      </div>
+      ${changeHTML}
+      <button class="save-wc-btn" onclick="saveMonthWeight(${m})">حفظ ✓</button>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════
+// WEIGHT TAB
+// ══════════════════════════════════════════
+function renderWeightTab() {
+  const c = document.getElementById('weight-history-container');
+  c.innerHTML='';
+  const st=calcStats();
+
+  // Summary
+  const summary=document.createElement('div');
+  summary.style.cssText='background:linear-gradient(135deg,#667eea,#764ba2);border-radius:26px;padding:24px;color:white;margin-bottom:22px;';
+  const diff=st.startW&&st.lastW?(st.lastW-st.startW).toFixed(1):null;
+  summary.innerHTML=`
+    <div style="font-size:1rem;font-weight:800;margin-bottom:16px;">📊 ملخص الوزن</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center;">
+      <div><div style="font-size:1.8rem;font-weight:900;">${st.startW||'—'}</div><div style="font-size:0.72rem;opacity:0.8;margin-top:3px;">البداية (كغ)</div></div>
+      <div><div style="font-size:1.8rem;font-weight:900;">${st.lastW||'—'}</div><div style="font-size:0.72rem;opacity:0.8;margin-top:3px;">الحالي (كغ)</div></div>
+      <div><div style="font-size:1.8rem;font-weight:900;color:${diff&&parseFloat(diff)<0?'#6BCFB0':'#FFD166'}">${diff?((parseFloat(diff)<=0?'':'+')+ diff):'-'}</div><div style="font-size:0.72rem;opacity:0.8;margin-top:3px;">التغيير (كغ)</div></div>
+    </div>
+  `;
+  c.appendChild(summary);
+
+  // Monthly records
+  const listTitle=document.createElement('div');
+  listTitle.style.cssText='font-size:1rem;font-weight:800;margin-bottom:14px;';
+  listTitle.textContent='📅 سجل الوزن الشهري';
+  c.appendChild(listTitle);
+
+  for(let m=1;m<=13;m++){
+    const w=S.monthWeights[m];
+    const prevW=m>1?S.monthWeights[m-1]:null;
+    if(!w && m>S.currentWeek/4) continue;
+    const card=document.createElement('div');
+    card.style.cssText='background:white;border-radius:18px;padding:16px 20px;margin-bottom:10px;box-shadow:0 2px 12px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:space-between;';
+    let diffHtml='';
+    if(w&&prevW){
+      const d=(parseFloat(w)-parseFloat(prevW)).toFixed(1);
+      const n=parseFloat(d);
+      diffHtml=`<span style="font-weight:700;color:${n<0?'#6BCFB0':n>0?'#FF6B6B':'#999'}">${n<=0?'':'+'}${d} كغ</span>`;
+    }
+    card.innerHTML=`
+      <div>
+        <div style="font-weight:800;font-size:0.9rem;">${MONTH_NAMES[m-1]}</div>
+        <div style="font-size:0.75rem;color:var(--muted);margin-top:2px;">الأسبوع ${(m-1)*4+1}–${Math.min(m*4,52)}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        ${diffHtml}
+        <span style="font-size:1.3rem;font-weight:900;color:var(--rose)">${w?w+' كغ':'—'}</span>
+      </div>
+    `;
+    c.appendChild(card);
+  }
+}
+
+// ══════════════════════════════════════════
+// ACHIEVEMENTS TAB
+// ══════════════════════════════════════════
+function renderAchievements() {
+  const grid=document.getElementById('ach-grid');
+  grid.innerHTML='';
+  const st=calcStats();
+  ACHIEVEMENTS_DEF.forEach(a=>{
+    const unlocked=a.condition(st);
+    const div=document.createElement('div');
+    div.className='ach-badge'+(unlocked?' unlocked':'');
+    div.innerHTML=`<span class="ach-icon">${a.icon}</span><div class="ach-name">${a.name}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+// ══════════════════════════════════════════
+// INTERACTIONS
+// ══════════════════════════════════════════
+function toggleMonth(m) {
+  const sec=document.getElementById(`month-${m}`);
+  const body=sec.querySelector('.month-body');
+  if(sec.classList.contains('collapsed')){
+    sec.classList.remove('collapsed');
+    body.style.maxHeight='3000px';
+    S.openMonth=m;
+  } else {
+    sec.classList.add('collapsed');
+    body.style.maxHeight='0';
+    if(S.openMonth===m) S.openMonth=null;
+  }
+  save();
+}
+
+function toggleWeek(w) {
+  if(S.openWeek===w){ S.openWeek=null; } else { S.openWeek=w; S.currentWeek=w; }
+  save();
+  renderProgram();
+}
+
+function toggleDay(w, d, btn) {
+  if(!S.weeks[w]) S.weeks[w]={};
+  if(!S.weeks[w][d]) S.weeks[w][d]={};
+  S.weeks[w][d].done=!S.weeks[w][d].done;
+  save();
+  const isDone=S.weeks[w][d].done;
+  btn.classList.toggle('on',isDone);
+  btn.textContent=isDone?'✓':'';
+  const tmpl=WEEK_TEMPLATES[(w-1)%4];
+  const dc=btn.closest('.day-card');
+  if(isDone){ dc.classList.add('done-card'); btn.style.cssText=`background:${tmpl[d-1].color};border-color:${tmpl[d-1].color}`; spawnConfetti(btn); }
+  else { dc.classList.remove('done-card'); btn.style.cssText=`border-color:${tmpl[d-1].color}`; }
+  // Check if week complete
+  const workDays=tmpl.filter(x=>!x.rest);
+  const wd=S.weeks[w]||{};
+  const done=workDays.filter(x=>{ const i=tmpl.indexOf(x)+1; return (wd[i]||{}).done; }).length;
+  if(done===workDays.length){ showToast('🎉 أكملتِ الأسبوع '+w+'! أنتِ رائعة!'); }
+  renderOverview();
+  renderAchievements();
+}
+
+function setField(w,d,field,val) {
+  if(!S.weeks[w]) S.weeks[w]={};
+  if(!S.weeks[w][d]) S.weeks[w][d]={};
+  S.weeks[w][d][field]=val;
+  save();
+  renderOverview();
+}
+
+function toggleBonus(w,d,bi,color,chip) {
+  if(!S.weeks[w]) S.weeks[w]={};
+  if(!S.weeks[w][d]) S.weeks[w][d]={};
+  if(!S.weeks[w][d].bonus) S.weeks[w][d].bonus=[];
+  const arr=S.weeks[w][d].bonus;
+  const idx=arr.indexOf(bi);
+  if(idx>-1){ arr.splice(idx,1); chip.classList.remove('on'); chip.removeAttribute('style'); }
+  else { arr.push(bi); chip.classList.add('on'); chip.style.cssText=`background:${color};color:white;border-color:transparent`; }
+  save();
+}
+
+function saveMonthWeight(m) {
+  const input=document.getElementById(`wc-input-${m}`);
+  if(!input) return;
+  const v=parseFloat(input.value);
+  if(!v||v<30||v>250){ showToast('أدخلي وزناً صحيحاً 😊'); return; }
+  S.monthWeights[m+1]=v;
+  save();
+  renderProgram();
+  renderOverview();
+  renderWeightTab();
+  showToast('✅ تم حفظ وزنك للشهر '+(m+1)+'!');
+  spawnConfettiCenter();
+}
+
+// ══════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  const idx={'overview':0,'program':1,'weight':2,'achievements':3}[tab];
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function showToast(msg, dur=2800) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function spawnConfetti(el) {
+  const rect=el.getBoundingClientRect();
+  const colors=['#FF6B9D','#FF8C69','#FFD166','#6BCFB0','#A78BFA'];
+  const wrap=document.getElementById('confetti');
+  for(let i=0;i<14;i++){
+    const dot=document.createElement('div');
+    dot.className='confetti-dot';
+    dot.style.cssText=`left:${rect.left+rect.width/2+(Math.random()-0.5)*100}px;top:${rect.top+window.scrollY}px;background:${colors[~~(Math.random()*5)]};animation-delay:${Math.random()*0.3}s;`;
+    wrap.appendChild(dot); setTimeout(()=>dot.remove(),1400);
+  }
+}
+
+function spawnConfettiCenter() {
+  const colors=['#FF6B9D','#FF8C69','#FFD166','#6BCFB0','#A78BFA'];
+  const wrap=document.getElementById('confetti');
+  for(let i=0;i<20;i++){
+    const dot=document.createElement('div');
+    dot.className='confetti-dot';
+    dot.style.cssText=`left:${window.innerWidth/2+(Math.random()-0.5)*200}px;top:${window.scrollY+200}px;background:${colors[~~(Math.random()*5)]};animation-delay:${Math.random()*0.5}s;`;
+    wrap.appendChild(dot); setTimeout(()=>dot.remove(),1600);
+  }
+}
+
+// Initial check
+if(S.started) { document.getElementById('onboard').classList.add('hidden'); renderAll(); }
+</script>
+</body>
+</html>
